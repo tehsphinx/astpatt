@@ -12,6 +12,17 @@ func (s *AssignStmt) Populate(ast astrav.Node) {
 	s.populateDefault(ast)
 }
 
+// ForStmt node
+type ForStmt struct {
+	parentNode
+}
+
+// Populate populates the pattern node from a given ast node.
+func (s *ForStmt) Populate(ast astrav.Node) {
+	s.populateDefault(ast)
+	s.populateBlock(ast)
+}
+
 // FuncDecl node
 type FuncDecl struct {
 	parentNode
@@ -36,15 +47,18 @@ type IfStmt struct {
 // Populate populates the pattern node from a given ast node.
 func (s *IfStmt) Populate(ast astrav.Node) {
 	s.populateDefault(ast)
+	s.populateBlock(ast)
+}
 
-	for _, ast := range ast.Children() {
-		if !ast.IsNodeType(astrav.NodeTypeBlockStmt) {
-			continue
-		}
+// RangeStmt node
+type RangeStmt struct {
+	parentNode
+}
 
-		node := creator(ast)
-		s.Nodes = append(s.Nodes, node)
-	}
+// Populate populates the pattern node from a given ast node.
+func (s *RangeStmt) Populate(ast astrav.Node) {
+	s.populateDefault(ast)
+	s.populateBlock(ast)
 }
 
 // ReturnStmt node

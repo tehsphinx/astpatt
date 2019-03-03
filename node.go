@@ -19,7 +19,7 @@ type DefaultNode struct {
 type parentNode struct {
 	Nodes    nodes           `json:"children,omitempty"`
 	NodeType astrav.NodeType `json:"type"`
-	Code     string          `json:"code,omitempty"`
+	Code     string          `json:"-"`
 }
 
 func (s *parentNode) correctType(node Node) bool {
@@ -66,6 +66,16 @@ func (s *parentNode) populateChildren(ast astrav.Node) {
 	}
 }
 
+func (s *parentNode) populateBlock(ast astrav.Node) {
+	for _, ast := range ast.Children() {
+		if !ast.IsNodeType(astrav.NodeTypeBlockStmt) {
+			continue
+		}
+		node := creator(ast)
+		s.Nodes = append(s.Nodes, node)
+	}
+}
+
 func (s *parentNode) isType(nodeType astrav.NodeType) bool {
 	return s.NodeType == nodeType
 }
@@ -74,15 +84,14 @@ type nodes []Node
 
 // Match checks if given node matches the criteria
 func (s nodes) Match(parent Node) bool {
-	var (
-		nodeIndex int
-		nodes     = parent.Children()
-	)
-	for _, child := range s {
-		if !child.Match(nodes[nodeIndex]) {
+	var nodes = parent.Children()
+	if len(s) != len(nodes) {
+		return false
+	}
+	for i, child := range s {
+		if !child.Match(nodes[i]) {
 			return false
 		}
-		nodeIndex++
 	}
 	return true
 }

@@ -23,8 +23,8 @@ func creator(astNode astrav.Node) Node {
 		n = &Omit{}
 	// case astrav.NodeTypeEllipsis:
 	// 	n = &Ellipsis{}
-	// case astrav.NodeTypeBasicLit:
-	// 	n = &BasicLit{}
+	case astrav.NodeTypeBasicLit:
+		n = &Omit{}
 	// case astrav.NodeTypeFuncLit:
 	// 	n = &FuncLit{}
 	// case astrav.NodeTypeCompositeLit:
@@ -63,20 +63,20 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &ChanType{}
 	// case astrav.NodeTypeBadStmt:
 	// 	n = &BadStmt{}
-	// case astrav.NodeTypeDeclStmt:
-	// 	n = &DeclStmt{}
+	case astrav.NodeTypeDeclStmt:
+		n = &Omit{}
 	// case astrav.NodeTypeEmptyStmt:
 	// 	n = &EmptyStmt{}
 	// case astrav.NodeTypeLabeledStmt:
 	// 	n = &LabeledStmt{}
-	// case astrav.NodeTypeExprStmt:
-	// 	n = &ExprStmt{}
+	case astrav.NodeTypeExprStmt:
+		n = &Omit{}
 	// case astrav.NodeTypeSendStmt:
 	// 	n = &SendStmt{}
-	// case astrav.NodeTypeIncDecStmt:
-	// 	n = &IncDecStmt{}
+	case astrav.NodeTypeIncDecStmt:
+		n = &Omit{}
 	case astrav.NodeTypeAssignStmt:
-		n = &AssignStmt{}
+		n = &Omit{}
 	// case astrav.NodeTypeGoStmt:
 	// 	n = &GoStmt{}
 	// case astrav.NodeTypeDeferStmt:
@@ -99,10 +99,10 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &CommClause{}
 	// case astrav.NodeTypeSelectStmt:
 	// 	n = &SelectStmt{}
-	// case astrav.NodeTypeForStmt:
-	// 	n = &ForStmt{}
-	// case astrav.NodeTypeRangeStmt:
-	// 	n = &RangeStmt{}
+	case astrav.NodeTypeForStmt:
+		n = &ForStmt{}
+	case astrav.NodeTypeRangeStmt:
+		n = &RangeStmt{}
 	// case astrav.NodeTypeImportSpec:
 	// 	n = &ImportSpec{}
 	// case astrav.NodeTypeValueSpec:
@@ -111,8 +111,8 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &TypeSpec{}
 	// case astrav.NodeTypeBadDecl:
 	// 	n = &BadDecl{}
-	// case astrav.NodeTypeGenDecl:
-	// 	n = &GenDecl{}
+	case astrav.NodeTypeGenDecl:
+		n = &Omit{}
 	case astrav.NodeTypeFuncDecl:
 		n = &FuncDecl{}
 	// case astrav.NodeTypeFile:
