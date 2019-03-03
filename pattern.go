@@ -2,9 +2,11 @@ package astpatt
 
 import "github.com/tehsphinx/astrav"
 
-// Matcher represents criterias describing an ast criteria
-type Matcher interface {
-	Match(node astrav.Node) bool
+// ExtractPattern extracts the pattern from a given ast package
+func ExtractPattern(pkg *astrav.Package) *Pattern {
+	pattern := NewPattern()
+	pattern.Populate(pkg)
+	return pattern
 }
 
 // NewPattern creates a new pattern
@@ -17,7 +19,13 @@ type Pattern struct {
 	parentNode
 }
 
-// Match checks the pattern against given parent node
-func (s *Pattern) Match(parent astrav.Node) bool {
-	return s.Children.Match(parent)
+// MatchPkg checks the pattern against given parent node
+func (s *Pattern) MatchPkg(pkg *astrav.Package) bool {
+	pkgPatt := ExtractPattern(pkg)
+	return s.Match(pkgPatt)
+}
+
+// Match checks the pattern against another pattern
+func (s *Pattern) Match(node Node) bool {
+	return s.Nodes.Match(node)
 }
