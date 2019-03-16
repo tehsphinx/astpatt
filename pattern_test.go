@@ -32,6 +32,7 @@ var matchTests = []struct {
 			{solution: "solutions/twofer/9", match: true},
 			{solution: "solutions/twofer/10", match: true},
 			{solution: "solutions/twofer/11", match: true},
+			{solution: "solutions/twofer/12", match: true},
 		},
 	},
 	// {

@@ -75,8 +75,8 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &SendStmt{}
 	// case astrav.NodeTypeIncDecStmt:
 	// 	n = &Omit{}
-	// case astrav.NodeTypeAssignStmt:
-	// 	n = &Omit{}
+	case astrav.NodeTypeAssignStmt:
+		n = &Skip{}
 	// case astrav.NodeTypeGoStmt:
 	// 	n = &GoStmt{}
 	// case astrav.NodeTypeDeferStmt:

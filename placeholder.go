@@ -2,21 +2,13 @@ package astpatt
 
 import "github.com/tehsphinx/astrav"
 
-// Additional placeholder node types
+// Special node types
 const (
-	NodeTypeAny  astrav.NodeType = "any"
+	// NodeTypeOmit will be omitted including its children.
 	NodeTypeOmit astrav.NodeType = "omit"
+	// NodeTypeSkip defines a node that is not taken into accound. It's children will be inlined.
+	NodeTypeSkip astrav.NodeType = "skip"
 )
-
-// PlaceHolder is a placeholder node that can stand for none to multiple nodes.
-type PlaceHolder struct {
-	parentNode
-}
-
-// Populate populates the pattern node from a given ast node.
-func (s *PlaceHolder) Populate(ast astrav.Node) {
-	s.NodeType = NodeTypeAny
-}
 
 // Omit is a placeholder node that is to be omitted.
 type Omit struct {
@@ -26,4 +18,14 @@ type Omit struct {
 // Populate populates the pattern node from a given ast node.
 func (s *Omit) Populate(ast astrav.Node) {
 	s.NodeType = NodeTypeOmit
+}
+
+// Skip is a placeholder node that is to be omitted.
+type Skip struct {
+	parentNode
+}
+
+// Populate populates the pattern node from a given ast node.
+func (s *Skip) Populate(ast astrav.Node) {
+	s.NodeType = NodeTypeSkip
 }

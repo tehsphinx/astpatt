@@ -54,17 +54,16 @@ func (s *parentNode) populateDefault(ast astrav.Node) {
 }
 
 func (s *parentNode) populateChildren(ast astrav.Node) {
-	var prevNode Node
 	for _, ast := range ast.Children() {
 		node := creator(ast)
 		if node.isType(NodeTypeOmit) {
 			continue
 		}
-		if node.isType(NodeTypeAny) && prevNode != nil && prevNode.isType(NodeTypeAny) {
+		if node.isType(NodeTypeSkip) {
+			s.populateChildren(ast)
 			continue
 		}
 		s.Nodes = append(s.Nodes, node)
-		prevNode = node
 	}
 }
 
