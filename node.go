@@ -1,6 +1,8 @@
 package astpatt
 
-import "github.com/tehsphinx/astrav"
+import (
+	"github.com/tehsphinx/astrav"
+)
 
 // Node represents a pattern node.
 type Node interface {

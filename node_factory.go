@@ -23,16 +23,16 @@ func creator(astNode astrav.Node) Node {
 		n = &Omit{}
 	// case astrav.NodeTypeEllipsis:
 	// 	n = &Ellipsis{}
-	case astrav.NodeTypeBasicLit:
-		n = &Omit{}
+	// case astrav.NodeTypeBasicLit:
+	// 	n = &Omit{}
 	// case astrav.NodeTypeFuncLit:
 	// 	n = &FuncLit{}
 	// case astrav.NodeTypeCompositeLit:
 	// 	n = &CompositeLit{}
 	// case astrav.NodeTypeParenExpr:
 	// 	n = &ParenExpr{}
-	// case astrav.NodeTypeSelectorExpr:
-	// 	n = &SelectorExpr{}
+	case astrav.NodeTypeSelectorExpr:
+		n = &SelectorExpr{}
 	// case astrav.NodeTypeIndexExpr:
 	// 	n = &IndexExpr{}
 	// case astrav.NodeTypeSliceExpr:
@@ -53,8 +53,8 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &ArrayType{}
 	// case astrav.NodeTypeStructType:
 	// 	n = &StructType{}
-	case astrav.NodeTypeFuncType:
-		n = &Omit{}
+	// case astrav.NodeTypeFuncType:
+	// 	n = &Omit{}
 	// case astrav.NodeTypeInterfaceType:
 	// 	n = &InterfaceType{}
 	// case astrav.NodeTypeMapType:
@@ -63,32 +63,32 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &ChanType{}
 	// case astrav.NodeTypeBadStmt:
 	// 	n = &BadStmt{}
-	case astrav.NodeTypeDeclStmt:
-		n = &Omit{}
+	// case astrav.NodeTypeDeclStmt:
+	// 	n = &Omit{}
 	// case astrav.NodeTypeEmptyStmt:
 	// 	n = &EmptyStmt{}
 	// case astrav.NodeTypeLabeledStmt:
 	// 	n = &LabeledStmt{}
-	case astrav.NodeTypeExprStmt:
-		n = &Omit{}
+	// case astrav.NodeTypeExprStmt:
+	// 	n = &ExprStmt{}
 	// case astrav.NodeTypeSendStmt:
 	// 	n = &SendStmt{}
-	case astrav.NodeTypeIncDecStmt:
-		n = &Omit{}
-	case astrav.NodeTypeAssignStmt:
-		n = &Omit{}
+	// case astrav.NodeTypeIncDecStmt:
+	// 	n = &Omit{}
+	// case astrav.NodeTypeAssignStmt:
+	// 	n = &Omit{}
 	// case astrav.NodeTypeGoStmt:
 	// 	n = &GoStmt{}
 	// case astrav.NodeTypeDeferStmt:
 	// 	n = &DeferStmt{}
-	case astrav.NodeTypeReturnStmt:
-		n = &ReturnStmt{}
+	// case astrav.NodeTypeReturnStmt:
+	// 	n = &ReturnStmt{}
 	// case astrav.NodeTypeBranchStmt:
 	// 	n = &BranchStmt{}
 	// case astrav.NodeTypeBlockStmt:
 	// 	n = &BlockStmt{}
-	case astrav.NodeTypeIfStmt:
-		n = &IfStmt{}
+	// case astrav.NodeTypeIfStmt:
+	// 	n = &IfStmt{}
 	// case astrav.NodeTypeCaseClause:
 	// 	n = &CaseClause{}
 	// case astrav.NodeTypeSwitchStmt:
@@ -99,10 +99,10 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &CommClause{}
 	// case astrav.NodeTypeSelectStmt:
 	// 	n = &SelectStmt{}
-	case astrav.NodeTypeForStmt:
-		n = &ForStmt{}
-	case astrav.NodeTypeRangeStmt:
-		n = &RangeStmt{}
+	// case astrav.NodeTypeForStmt:
+	// 	n = &ForStmt{}
+	// case astrav.NodeTypeRangeStmt:
+	// 	n = &RangeStmt{}
 	// case astrav.NodeTypeImportSpec:
 	// 	n = &ImportSpec{}
 	// case astrav.NodeTypeValueSpec:
@@ -111,8 +111,8 @@ func creator(astNode astrav.Node) Node {
 	// 	n = &TypeSpec{}
 	// case astrav.NodeTypeBadDecl:
 	// 	n = &BadDecl{}
-	case astrav.NodeTypeGenDecl:
-		n = &Omit{}
+	// case astrav.NodeTypeGenDecl:
+	// 	n = &Omit{}
 	case astrav.NodeTypeFuncDecl:
 		n = &FuncDecl{}
 	// case astrav.NodeTypeFile:
