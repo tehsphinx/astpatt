@@ -19,6 +19,9 @@ func ExtractPattern(pkg *astrav.Package) *Pattern {
 // MatchPatterns matches a package against multiple valid patterns.
 // If one of the valid patterns matches true is returned.
 func MatchPatterns(valid []*Pattern, pkg *astrav.Package) bool {
+	if pkg == nil {
+		return false
+	}
 	for _, pattern := range valid {
 		if pattern.MatchPkg(pkg) {
 			return true
