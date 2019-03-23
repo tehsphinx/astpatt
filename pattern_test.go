@@ -147,7 +147,7 @@ func TestPattern_Match(t *testing.T) {
 				t.Error(err)
 			}
 
-			diff, ok := DiffPatterns(valid, pkg)
+			diff, _, ok := DiffPatterns(valid, pkg)
 			assert.Equal(t, test.match, ok, fmt.Sprintf("solution failed: %s\n%s", test.solution, diff))
 		}
 	}

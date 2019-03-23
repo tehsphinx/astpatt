@@ -33,18 +33,22 @@ func MatchPatterns(valid []*Pattern, pkg *astrav.Package) bool {
 // DiffPatterns matches a package against multiple valid patterns.
 // If one of the valid patterns matches true is returned.
 // DiffPatterns additionally returns a diff of the patterns.
-func DiffPatterns(valid []*Pattern, pkg *astrav.Package) (string, bool) {
-	var minDiff string
+func DiffPatterns(valid []*Pattern, pkg *astrav.Package) (string, float64, bool) {
+	var (
+		minDiff  string
+		maxRatio float64
+	)
 	for _, pattern := range valid {
-		diff, ok := pattern.DiffPkg(pkg)
+		diff, ratio, ok := pattern.DiffPkg(pkg)
 		if ok {
-			return "", true
+			return "", ratio, true
 		}
-		if minDiff == "" || len(diff) < len(minDiff) {
+		if minDiff == "" || maxRatio < ratio {
 			minDiff = diff
+			maxRatio = ratio
 		}
 	}
-	return minDiff, false
+	return minDiff, maxRatio, false
 }
 
 // NewPattern creates a new pattern
@@ -66,12 +70,13 @@ func (s *Pattern) MatchPkg(pkg *astrav.Package) bool {
 }
 
 // DiffPkg checks the pattern against given parent node
-func (s *Pattern) DiffPkg(pkg *astrav.Package) (string, bool) {
+func (s *Pattern) DiffPkg(pkg *astrav.Package) (string, float64, bool) {
 	pkgPatt := ExtractPattern(pkg)
 	if s.Match(pkgPatt) {
-		return "", true
+		return "", 1, true
 	}
-	return getDiff(s.String(), pkgPatt.String()), false
+	diff, ratio := getDiff(s.String(), pkgPatt.String())
+	return diff, ratio, false
 }
 
 // Match checks the pattern against another pattern
@@ -84,7 +89,7 @@ func (s *Pattern) String() string {
 	return string(b)
 }
 
-func getDiff(expected, current string) string {
+func getDiff(expected, current string) (string, float64) {
 	diff := difflib.UnifiedDiff{
 		A:        difflib.SplitLines(expected),
 		B:        difflib.SplitLines(current),
@@ -94,7 +99,8 @@ func getDiff(expected, current string) string {
 	}
 	text, err := difflib.GetUnifiedDiffString(diff)
 	if err != nil {
-		return fmt.Sprintf("error while diffing strings: %s", err)
+		return fmt.Sprintf("error while diffing strings: %s", err), 0
 	}
-	return text
+	matcher := difflib.NewMatcher(difflib.SplitLines(expected), difflib.SplitLines(current))
+	return text, matcher.Ratio()
 }
