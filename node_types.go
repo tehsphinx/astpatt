@@ -14,7 +14,7 @@ type FuncDecl struct {
 func (s *FuncDecl) Populate(ast astrav.Node) {
 	s.populateDefault(ast)
 	if named, ok := ast.(astrav.Named); ok {
-		s.Name = named.NodeName().Name
+		s.Name = named.NodeName()
 	}
 
 	s.populateChildren(ast)
@@ -30,7 +30,7 @@ type SelectorExpr struct {
 func (s *SelectorExpr) Populate(ast astrav.Node) {
 	s.populateDefault(ast)
 	if named, ok := ast.(astrav.Named); ok {
-		s.Name = named.NodeName().Name
+		s.Name = named.NodeName()
 	}
 
 	s.populateChildren(ast)

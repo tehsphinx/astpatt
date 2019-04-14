@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/pmezard/go-difflib/difflib"
-
 	"github.com/tehsphinx/astrav"
 )
 
