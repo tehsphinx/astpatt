@@ -5,7 +5,7 @@ import "errors"
 // Distance returns the Hamming distance of 2 strings
 func Distance(a, b string) (int, error) {
 	if len(a) != len(b) {
-		return -1, errors.New("Strings are different lengths")
+		return -1, errors.New("strings are different lengths")
 	}
 
 	diff := 0

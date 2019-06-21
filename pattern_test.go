@@ -3,6 +3,7 @@ package astpatt
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -35,20 +36,21 @@ var matchTests = []struct {
 			{solution: "solutions/twofer/12", match: true},
 		},
 	},
-	// {
-	// 	patterns: []string{"solutions/hamming/patterns/1", "solutions/hamming/patterns/2"},
-	// 	tests: []test{
-	// 		{solution: "solutions/hamming/1", match: true},
-	// 		{solution: "solutions/hamming/2", match: true},
-	// 		{solution: "solutions/hamming/3", match: true},
-	// 		{solution: "solutions/hamming/4", match: false},
-	// 		{solution: "solutions/hamming/5", match: false},
-	// 		{solution: "solutions/hamming/6", match: true},
-	// 		{solution: "solutions/hamming/7", match: true},
-	// 		{solution: "solutions/hamming/8", match: false},
-	// 		{solution: "solutions/hamming/9", match: true},
-	// 	},
-	// },
+	{
+		patterns: []string{"solutions/hamming/patterns/1", "solutions/hamming/patterns/2"},
+		tests: []test{
+			{solution: "solutions/hamming/1", match: false},
+			// {solution: "solutions/hamming/2", match: true},
+			// {solution: "solutions/hamming/3", match: true},
+			// {solution: "solutions/hamming/4", match: false},
+			// {solution: "solutions/hamming/5", match: false},
+			// {solution: "solutions/hamming/6", match: true},
+			// {solution: "solutions/hamming/7", match: true},
+			// {solution: "solutions/hamming/8", match: false},
+			// {solution: "solutions/hamming/9", match: true},
+			// {solution: "solutions/hamming/10", match: true},
+		},
+	},
 	// {
 	// 	patterns: []string{"solutions/raindrops/2", "solutions/raindrops/4"},
 	// 	tests: []test{
@@ -135,6 +137,7 @@ func TestPattern_Match(t *testing.T) {
 			pkg, err := getPackage(folder)
 			if err != nil {
 				t.Error(err)
+				continue
 			}
 			pattern := ExtractPattern(pkg)
 			pattern.Name = folder
@@ -154,7 +157,7 @@ func TestPattern_Match(t *testing.T) {
 }
 
 func getPackage(path string) (*astrav.Package, error) {
-	folder := astrav.NewFolder(path)
+	folder := astrav.NewFolder(http.Dir(path), "")
 	packages, err := folder.ParseFolder()
 	if err != nil {
 		return nil, err

@@ -2,15 +2,16 @@ package hamming
 
 import "errors"
 
-// Distance returns the Hamming distance of 2 strings
+// Distance returns the hamming distance of given strings
 func Distance(a, b string) (int, error) {
 	if len(a) != len(b) {
-		return 0, errors.New("strings are different lengths")
+		return 0, errors.New("strings have different length")
 	}
 
-	var diff int
-	for i := 0; i < len(a); i++ {
-		if a[i] != b[i] {
+	diff := 0
+	bRunes := []rune(b)
+	for i, r := range a {
+		if r != bRunes[i] {
 			diff++
 		}
 	}
