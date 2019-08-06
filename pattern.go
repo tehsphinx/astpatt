@@ -15,6 +15,17 @@ func ExtractPattern(pkg *astrav.Package) *Pattern {
 	return pattern
 }
 
+// ExtractPatternPermutations extracts a list of patterns with nodes order exchanged where allowed.
+func ExtractPatternPermutations(pkg *astrav.Package) []*Pattern {
+	perms := permutations(pkg)
+
+	var patterns []*Pattern
+	for _, node := range perms {
+		patterns = append(patterns, node.(*Pattern))
+	}
+	return patterns
+}
+
 // MatchPatterns matches a package against multiple valid patterns.
 // If one of the valid patterns matches true is returned.
 func MatchPatterns(valid []*Pattern, pkg *astrav.Package) bool {

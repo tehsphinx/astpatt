@@ -168,3 +168,441 @@ func getPackage(path string) (*astrav.Package, error) {
 
 	return nil, errors.New("no go package found")
 }
+
+func Test_ExtractPatternPermutations(t *testing.T) {
+	pkg, err := getPackage("solutions/permutations/1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	type fields struct {
+		Nodes    nodes
+		NodeType astrav.NodeType
+		Code     string
+	}
+	type args struct {
+		ast *astrav.Package
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   []Node
+	}{
+		{
+			name: "permutations",
+			args: args{ast: pkg},
+			want: []Node{
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+				&Pattern{
+					parentNode: parentNode{
+						Nodes: []Node{
+							&DefaultNode{parentNode{
+								Nodes: []Node{
+									&FuncDecl{
+										parentNode: parentNode{
+											Nodes: []Node{
+												&DefaultNode{parentNode{
+													Nodes: []Node{
+														&DefaultNode{parentNode{
+															Nodes:    nil,
+															NodeType: "*astrav.FieldList",
+															Code:     "",
+														}},
+													},
+													NodeType: "*astrav.FuncType",
+													Code:     "",
+												}},
+												&DefaultNode{parentNode{
+													Nodes:    nil,
+													NodeType: "*astrav.BlockStmt",
+													Code:     "",
+												}},
+											},
+											NodeType: "*astrav.FuncDecl",
+											Code:     "",
+										},
+										Name: "Test",
+									},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes:    nil,
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+									&DefaultNode{parentNode{
+										Nodes: []Node{
+											&DefaultNode{parentNode{
+												Nodes: []Node{
+													&DefaultNode{parentNode{
+														Nodes:    nil,
+														NodeType: "*astrav.BasicLit",
+														Code:     "",
+													}},
+												},
+												NodeType: "*astrav.ValueSpec",
+												Code:     "",
+											}},
+										},
+										NodeType: "*astrav.GenDecl",
+										Code:     "",
+									}},
+								},
+								NodeType: "*astrav.File",
+								Code:     "",
+							}},
+						},
+						NodeType: "*astrav.Package",
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ExtractPatternPermutations(tt.args.ast)
+			if len(got) != len(tt.want) {
+				t.Fatalf("permutations() = %v, want %v", got, tt.want)
+			}
+			for i, pattern := range got {
+				if !pattern.Match(tt.want[i]) {
+					t.Errorf("permutations(%d) = %v, want %v", i, pattern, tt.want[i])
+				}
+			}
+		})
+	}
+}

@@ -9,8 +9,11 @@ type Node interface {
 	Match(Node) bool
 	Populate(astrav.Node)
 	Children() []Node
+	Walk(f func(node Node) bool)
 
 	isType(astrav.NodeType) bool
+	populateDefault(ast astrav.Node)
+	fillNode(nodes []Node, ast astrav.Node)
 }
 
 // DefaultNode implements the default node definition
@@ -53,6 +56,11 @@ func (s *parentNode) populateDefault(ast astrav.Node) {
 	s.Code = ast.GetSourceString()
 }
 
+func (s *parentNode) fillNode(nodes []Node, ast astrav.Node) {
+	s.Nodes = nodes
+	s.populateDefault(ast)
+}
+
 func (s *parentNode) populateChildren(ast astrav.Node) {
 	for _, ast := range ast.Children() {
 		node := creator(ast)
@@ -64,6 +72,18 @@ func (s *parentNode) populateChildren(ast astrav.Node) {
 			continue
 		}
 		s.Nodes = append(s.Nodes, node)
+	}
+}
+
+// Walk traverses the tree and its children.
+// return false to skip children of the current element
+func (s *parentNode) Walk(f func(node Node) bool) {
+	if !f(s) {
+		return
+	}
+
+	for _, child := range s.Children() {
+		child.Walk(f)
 	}
 }
 

@@ -16,8 +16,10 @@ type Omit struct {
 }
 
 // Populate populates the pattern node from a given ast node.
-func (s *Omit) Populate(ast astrav.Node) {
-	s.NodeType = NodeTypeOmit
+func (s *Omit) Populate(ast astrav.Node) {}
+
+func (s *Omit) isType(nodeType astrav.NodeType) bool {
+	return NodeTypeOmit == nodeType
 }
 
 // Skip is a placeholder node that is to be omitted.
@@ -26,6 +28,8 @@ type Skip struct {
 }
 
 // Populate populates the pattern node from a given ast node.
-func (s *Skip) Populate(ast astrav.Node) {
-	s.NodeType = NodeTypeSkip
+func (s *Skip) Populate(ast astrav.Node) {}
+
+func (s *Skip) isType(nodeType astrav.NodeType) bool {
+	return NodeTypeSkip == nodeType
 }

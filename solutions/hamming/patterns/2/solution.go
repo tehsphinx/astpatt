@@ -1,19 +1,25 @@
+// Package hamming implements hamming distance
 package hamming
 
-import "errors"
+import (
+	"errors"
+)
 
-// Distance returns the hamming distance of given strings
+// Distance calculates tha hamming distance between two string
 func Distance(a, b string) (int, error) {
-	if len(a) != len(b) {
-		return 0, errors.New("strings have different length")
+	var (
+		runesA = []rune(a)
+		runesB = []rune(b)
+	)
+	if len(runesA) != len(runesB) {
+		return 0, errors.New("mismatch length strings not accepted")
 	}
 
-	diff := 0
-	bRunes := []rune(b)
-	for i, r := range a {
-		if r != bRunes[i] {
-			diff++
+	hammingDistance := 0
+	for i, char := range runesA {
+		if char != runesB[i] {
+			hammingDistance++
 		}
 	}
-	return diff, nil
+	return hammingDistance, nil
 }

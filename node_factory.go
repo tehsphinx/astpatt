@@ -5,8 +5,12 @@ import (
 )
 
 func creator(astNode astrav.Node) Node {
-	nodeType := astNode.NodeType()
+	n := createNode(astNode.NodeType())
+	n.Populate(astNode)
+	return n
+}
 
+func createNode(nodeType astrav.NodeType) Node {
 	var n Node
 	switch nodeType {
 	case astrav.NodeTypeComment:
@@ -122,7 +126,5 @@ func creator(astNode astrav.Node) Node {
 	default:
 		n = &DefaultNode{}
 	}
-
-	n.Populate(astNode)
 	return n
 }
