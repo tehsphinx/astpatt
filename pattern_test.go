@@ -11,8 +11,10 @@ import (
 )
 
 type test struct {
-	solution string
-	match    bool
+	solution   string
+	match      bool
+	minPercent float64
+	maxPercent float64
 }
 
 var matchTests = []struct {
@@ -20,13 +22,16 @@ var matchTests = []struct {
 	tests    []test
 }{
 	{
-		patterns: []string{"solutions/twofer/patterns/1", "solutions/twofer/patterns/2"},
+		patterns: []string{
+			"solutions/twofer/patterns/1",
+			"solutions/twofer/patterns/2",
+		},
 		tests: []test{
-			{solution: "solutions/twofer/1", match: true},
-			{solution: "solutions/twofer/2", match: false},
+			{solution: "solutions/twofer/1", match: true, minPercent: 1},
+			{solution: "solutions/twofer/2", match: false, maxPercent: 0.9},
 			{solution: "solutions/twofer/3", match: true},
 			{solution: "solutions/twofer/4", match: true},
-			{solution: "solutions/twofer/5", match: false},
+			{solution: "solutions/twofer/5", match: false, maxPercent: 0.9},
 			{solution: "solutions/twofer/6", match: false},
 			{solution: "solutions/twofer/7", match: false},
 			{solution: "solutions/twofer/8", match: true},
@@ -37,41 +42,50 @@ var matchTests = []struct {
 		},
 	},
 	{
-		patterns: []string{"solutions/hamming/patterns/1", "solutions/hamming/patterns/2"},
+		patterns: []string{
+			"solutions/hamming/patterns/1",
+			"solutions/hamming/patterns/2",
+		},
 		tests: []test{
 			{solution: "solutions/hamming/1", match: false},
-			// {solution: "solutions/hamming/2", match: true},
-			// {solution: "solutions/hamming/3", match: true},
-			// {solution: "solutions/hamming/4", match: false},
-			// {solution: "solutions/hamming/5", match: false},
-			// {solution: "solutions/hamming/6", match: true},
-			// {solution: "solutions/hamming/7", match: true},
-			// {solution: "solutions/hamming/8", match: false},
-			// {solution: "solutions/hamming/9", match: true},
-			// {solution: "solutions/hamming/10", match: true},
+			{solution: "solutions/hamming/2", match: false},
+			{solution: "solutions/hamming/3", match: false},
+			{solution: "solutions/hamming/4", match: false},
+			{solution: "solutions/hamming/5", match: false},
+			{solution: "solutions/hamming/6", match: false, minPercent: 0.9},
+			{solution: "solutions/hamming/7", match: false, minPercent: 0.9},
+			{solution: "solutions/hamming/8", match: false},
+			{solution: "solutions/hamming/9", match: false},
+			// TODO: {solution: "solutions/hamming/10", match: false, minPercent: 0.9},
+			// TODO: {solution: "solutions/hamming/11", match: false, minPercent: 0.9},
+			{solution: "solutions/hamming/12", match: true},
 		},
 	},
-	// {
-	// 	patterns: []string{"solutions/raindrops/2", "solutions/raindrops/4"},
-	// 	tests: []test{
-	// 		{solution: "solutions/raindrops/1", match: false},
-	// 		{solution: "solutions/raindrops/2", match: true},
-	// 		{solution: "solutions/raindrops/3", match: false},
-	// 		{solution: "solutions/raindrops/4", match: true},
-	// 		{solution: "solutions/raindrops/5", match: true},
-	// 		{solution: "solutions/raindrops/6", match: false},
-	// 		{solution: "solutions/raindrops/7", match: false},
-	// 		{solution: "solutions/raindrops/8", match: false},
-	// 		{solution: "solutions/raindrops/9", match: false},
-	// 		{solution: "solutions/raindrops/10", match: false},
-	// 		{solution: "solutions/raindrops/11", match: false},
-	// 		{solution: "solutions/raindrops/12", match: false},
-	// 		{solution: "solutions/raindrops/13", match: true},
-	// 		{solution: "solutions/raindrops/14", match: false},
-	// 		{solution: "solutions/raindrops/15", match: false},
-	// 		{solution: "solutions/raindrops/16", match: false},
-	// 	},
-	// },
+	{
+		patterns: []string{
+			"solutions/raindrops/patterns/1",
+			"solutions/raindrops/patterns/2",
+			"solutions/raindrops/patterns/3",
+		},
+		tests: []test{
+			{solution: "solutions/raindrops/1", match: false},
+			{solution: "solutions/raindrops/2", match: true},
+			{solution: "solutions/raindrops/3", match: false},
+			// TODO: {solution: "solutions/raindrops/4", match: false, minPercent: 0.9},
+			{solution: "solutions/raindrops/5", match: false, minPercent: 0.9},
+			{solution: "solutions/raindrops/6", match: false},
+			{solution: "solutions/raindrops/7", match: false, maxPercent: 0.85},
+			{solution: "solutions/raindrops/8", match: false},
+			{solution: "solutions/raindrops/9", match: false},
+			{solution: "solutions/raindrops/10", match: false},
+			{solution: "solutions/raindrops/11", match: false},
+			{solution: "solutions/raindrops/12", match: false},
+			// TODO: {solution: "solutions/raindrops/13", match: false, minPercent: 0.9},
+			{solution: "solutions/raindrops/14", match: false},
+			{solution: "solutions/raindrops/15", match: false, maxPercent: 0.85},
+			{solution: "solutions/raindrops/16", match: false, maxPercent: 0.85},
+		},
+	},
 	// {
 	// 	patterns: []string{"solutions/raindrops/7"},
 	// 	tests: []test{
@@ -144,14 +158,36 @@ func TestPattern_Match(t *testing.T) {
 			valid = append(valid, pattern)
 		}
 
-		for _, test := range group.tests {
-			pkg, err := getPackage(test.solution)
-			if err != nil {
-				t.Error(err)
-			}
+		for _, tt := range group.tests {
+			t.Run(tt.solution, func(t *testing.T) {
+				pkg, err := getPackage(tt.solution)
+				if err != nil {
+					t.Error(err)
+				}
 
-			diff, _, ok := DiffPatterns(valid, pkg)
-			assert.Equal(t, test.match, ok, fmt.Sprintf("solution failed: %s\n%s", test.solution, diff))
+				diff, percent, ok := DiffPatterns(valid, pkg)
+
+				fmt.Printf("\t\t%s: %.1f Percent\n", tt.solution, percent*100)
+
+				// check if it matches 100% and if it should
+				assert.Equal(t, tt.match, ok, fmt.Sprintf("solution failed: %s\n%s", tt.solution, diff))
+
+				// check if greated minPercent
+				assert.Condition(t, func() bool {
+					return tt.minPercent <= percent
+				}, "solution failed: %s\n\tpercentage should be greater than %.2f. Is %.2f.",
+					tt.solution, tt.minPercent, percent,
+				)
+
+				// check if less than maxPercent. Only if maxPercent != 0
+				if tt.maxPercent != 0 {
+					assert.Condition(t, func() bool {
+						return percent < tt.maxPercent
+					}, "solution failed: %s\n\tpercentage should be less than %.2f. Is %.2f.",
+						tt.solution, tt.maxPercent, percent,
+					)
+				}
+			})
 		}
 	}
 }

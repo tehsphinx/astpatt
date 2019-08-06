@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/tehsphinx/astpatt"
 	"github.com/tehsphinx/astrav"
@@ -17,7 +18,7 @@ var (
 func main() {
 	flag.Parse()
 
-	folder := astrav.NewFolder(*path)
+	folder := astrav.NewFolder(http.Dir(*path), "")
 	packages, err := folder.ParseFolder()
 	if err != nil {
 		log.Fatal(err)
