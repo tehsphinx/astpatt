@@ -73,19 +73,24 @@ type Pattern struct {
 	Name string `json:"-"`
 }
 
-// MatchPkg checks the pattern against given parent node
+// MatchPkg checks the pattern against given package
 func (s *Pattern) MatchPkg(pkg *astrav.Package) bool {
 	pkgPatt := ExtractPattern(pkg)
 	return s.Match(pkgPatt)
 }
 
-// DiffPkg checks the pattern against given parent node
+// DiffPkg checks the pattern against given package
 func (s *Pattern) DiffPkg(pkg *astrav.Package) (string, float64, bool) {
 	pkgPatt := ExtractPattern(pkg)
-	if s.Match(pkgPatt) {
+	return s.DiffPattern(pkgPatt)
+}
+
+// DiffPattern checks the pattern against another pattern
+func (s *Pattern) DiffPattern(pattern *Pattern) (string, float64, bool) {
+	if s.Match(pattern) {
 		return "", 1, true
 	}
-	diff, ratio := getDiff(s.String(), pkgPatt.String())
+	diff, ratio := getDiff(s.String(), pattern.String())
 	return diff, ratio, false
 }
 

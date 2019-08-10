@@ -58,7 +58,8 @@ var matchTests = []struct {
 			{solution: "solutions/hamming/9", match: false},
 			// TODO: {solution: "solutions/hamming/10", match: false, minPercent: 0.9},
 			// TODO: {solution: "solutions/hamming/11", match: false, minPercent: 0.9},
-			{solution: "solutions/hamming/12", match: true},
+			{solution: "solutions/hamming/12", match: false, minPercent: 0.98},
+			{solution: "solutions/hamming/13", match: false, minPercent: 0.98},
 		},
 	},
 	{
@@ -146,6 +147,8 @@ var matchTests = []struct {
 	// },
 }
 
+const runOnly = ""
+
 func TestPattern_Match(t *testing.T) {
 	for _, group := range matchTests {
 		var valid []*Pattern
@@ -163,6 +166,10 @@ func TestPattern_Match(t *testing.T) {
 		}
 
 		for _, tt := range group.tests {
+			if runOnly != "" && runOnly != tt.solution {
+				continue
+			}
+
 			t.Run(tt.solution, func(t *testing.T) {
 				pkg, err := getPackage(tt.solution)
 				if err != nil {
