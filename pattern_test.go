@@ -84,6 +84,8 @@ var matchTests = []struct {
 			{solution: "solutions/raindrops/14", match: false},
 			{solution: "solutions/raindrops/15", match: false, maxPercent: 0.85},
 			{solution: "solutions/raindrops/16", match: false, maxPercent: 0.85},
+			{solution: "solutions/raindrops/17", match: true},
+			{solution: "solutions/raindrops/18", match: true},
 		},
 	},
 	// {
@@ -153,9 +155,11 @@ func TestPattern_Match(t *testing.T) {
 				t.Error(err)
 				continue
 			}
-			pattern := ExtractPattern(pkg)
-			pattern.Name = folder
-			valid = append(valid, pattern)
+			perms := ExtractPatternPermutations(pkg)
+			for _, perm := range perms {
+				perm.Name = folder
+				valid = append(valid, perm)
+			}
 		}
 
 		for _, tt := range group.tests {
