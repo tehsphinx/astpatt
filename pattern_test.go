@@ -222,19 +222,13 @@ func Test_ExtractPatternPermutations(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	type fields struct {
-		Nodes    nodes
-		NodeType astrav.NodeType
-		Code     string
-	}
 	type args struct {
 		ast *astrav.Package
 	}
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   []Node
+		name string
+		args args
+		want []Node
 	}{
 		{
 			name: "permutations",

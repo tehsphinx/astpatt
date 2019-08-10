@@ -83,10 +83,7 @@ func Perm(nodes []Node) [][]Node {
 func perm(a []Node, nodes [][]Node, i int) [][]Node {
 	if i > len(a) {
 		var b []Node
-		for _, v := range a {
-			b = append(b, v)
-		}
-		return append(nodes, b)
+		return append(nodes, append(b, a...))
 	}
 	nodes = perm(a, nodes, i+1)
 	for j := i + 1; j < len(a); j++ {

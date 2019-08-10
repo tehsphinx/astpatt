@@ -87,16 +87,6 @@ func (s *parentNode) Walk(f func(node Node) bool) {
 	}
 }
 
-func (s *parentNode) populateBlock(ast astrav.Node) {
-	for _, ast := range ast.Children() {
-		if !ast.IsNodeType(astrav.NodeTypeBlockStmt) {
-			continue
-		}
-		node := creator(ast)
-		s.Nodes = append(s.Nodes, node)
-	}
-}
-
 func (s *parentNode) isType(nodeType astrav.NodeType) bool {
 	return s.NodeType == nodeType
 }
