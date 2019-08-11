@@ -6,24 +6,7 @@ import (
 
 // permutations creates a bunch of possible pattern permutations with the same meaning.
 func permutations(ast astrav.Node) []Node {
-	var childPermuts [][]Node
-	for _, child := range ast.Children() {
-		var (
-			children []Node
-			nn       = createNode(child.NodeType())
-		)
-		if nn.isType(NodeTypeOmit) {
-			continue
-		}
-		if nn.isType(NodeTypeSkip) {
-			for _, n := range child.Children() {
-				children = append(children, permutations(n)...)
-			}
-		} else {
-			children = permutations(child)
-		}
-		childPermuts = append(childPermuts, children)
-	}
+	childPermuts := permutChildren(ast)
 	childCombis := combinations(childPermuts)
 
 	var nodes []Node
@@ -42,6 +25,28 @@ func permutations(ast astrav.Node) []Node {
 		}
 	}
 	return nodes
+}
+
+func permutChildren(ast astrav.Node) [][]Node {
+	var childPermuts [][]Node
+	for _, child := range ast.Children() {
+		var (
+			children []Node
+			nn       = createNode(child.NodeType())
+		)
+		if nn.isType(NodeTypeOmit) {
+			continue
+		}
+		if nn.isType(NodeTypeSkip) {
+			chPerms := permutChildren(child)
+			childPermuts = append(childPermuts, chPerms...)
+			continue
+		} else {
+			children = permutations(child)
+		}
+		childPermuts = append(childPermuts, children)
+	}
+	return childPermuts
 }
 
 func permuteNodes(nodes []Node, parentAST astrav.Node) [][]Node {

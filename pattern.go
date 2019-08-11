@@ -116,6 +116,7 @@ func getDiff(expected, current string) (string, float64) {
 	if err != nil {
 		return fmt.Sprintf("error while diffing strings: %s", err), 0
 	}
-	matcher := difflib.NewMatcher(difflib.SplitLines(expected), difflib.SplitLines(current))
+	matcher := difflib.NewMatcherWithJunk(difflib.SplitLines(expected), difflib.SplitLines(current),
+		false, func(s string) bool { return false })
 	return text, matcher.Ratio()
 }
